@@ -31,15 +31,29 @@ function Paginate() {
 		setPage(page)
 	}
 
-	const searchName = (e) => {
-		console.log(userArray.users.indexOf(e))
-
-	}
-
 	const onChecked = (value, checked) => {
+		console.log('checked', value)
 		console.log('id값', Number(value) + Number(slicedID)) //5개씩 slice된 sliceData 배열때문에 pagination을 해서 2페이지로가면 i값이 다시 0부터 시작한다
 		let checkedID = Number(value) + Number(slicedID) //그래서 숫자를 더해서 store.js에 있는 배열 순서랑 맞춰서 삭제한다.
+		
+		// if(checked === true) { //수정버튼 누를시 그 배열 값 그대로 가져오기
+		// 	//error 문제는 여러개 선택하면 모두 같은 값이 되어버린다
+		//	//user 추가할때는 input칸을 하나밖에 안써서 이렇게해도되지만 수정은 input이 여러개가 가능해서 안된다.
+		// 	setNewName(userArray.users[checkedID].username)
+		// 	setNewEmail(userArray.users[checkedID].email)
+		// 	setNewNickName(userArray.users[checkedID].nickname)
+		// 	setNewGender(userArray.users[checkedID].gender)
+		// }
+
 		dispatch(checkBtn({ checkedID, checked }))
+
+		if(checked === false) { //체크 해제시 input값 비우기
+			setNewName('')
+			setNewEmail('')
+			setNewNickName('')
+			setNewGender('')
+		}
+		
 	}
 
 	const [newName, setNewName] = useState('')
@@ -50,7 +64,7 @@ function Paginate() {
 
 	const handleEdit = (value, arr) => {
 		let checkedID = Number(value) + Number(slicedID)
-		console.log('handleEdit', checkedID, arr)
+		//console.log('handleEdit', checkedID, arr)
 		dispatch(editBtn(({ checkedID, arr })))
 
 	}
@@ -66,19 +80,32 @@ function Paginate() {
 	//이름, 이메일, 닉네임 정규식 체크
 	const checkName = (name) => {
 		let result = regExName.test(name)
-		console.log('name', result)
+		//console.log('name', result)
 		if (result === true) {
 			setValidName(1)
 		} else {
 			setValidName(0)
 		}
 	}
-
 	const checkEmail = (email) => {
 		let result = regExEmail.test(email)
-		console.log('email', result)
+		//console.log('inputemail', result)
+
+		//email 중복 확인 여부
+		let emailSame = userArray.users.map((a, i) => {
+			if(userArray.users[i].email === result) {
+				return false
+			}else {
+				return true
+			}
+		})
+
 		if (result === true) {
-			setValidEmail(1)
+			if(emailSame === true) {
+				setValidEmail(1)
+			}else {
+				setValidEmail(0)
+			}
 		} else {
 			setValidEmail(0)
 		}
@@ -104,14 +131,36 @@ function Paginate() {
 		}
 	}
 
+
+	//search by username : map함수 처리를 어떻게 해야하나
+	const [searchUser, setSearchUser] = useState('')
+	const [searchData, setSearchData] = useState([])
+	const onChangeSearch = (e) => {
+		console.log('찾기', e)
+		setSearchUser(e)
+		
+		let result = userArray.users.map((a, i) => {
+			if(userArray.users[i].username.includes(searchUser)) {
+				console.log(userArray.users[i].username)
+				return userArray.users[i]
+			}else {
+				console.log('x')
+			}
+		})
+		setSearchData(result)
+		console.log(searchData)
+		
+	}
+
 // ↓
 	return (
 		<>
 			<div className='userContainer'>
 				<div>
 					<div className='title'>Users</div>
+					<div>{userArray.users.length} users</div>
 					<input className='input' placeholder='Search by username'
-						onChange={(e) => { searchName(e.target.value) }}></input>
+						onChange={(e) => { onChangeSearch(e.target.value) }}></input>
 				</div>
 				<Table striped bordered hover variant="light">
 					<thead>
@@ -159,11 +208,11 @@ function Paginate() {
 													a.checked === true
 														? <>
 															{/* {console.log('a.checked', a)} */}
-															<td><input type='text' value={newName} style={{ borderColor: validNickName === 1 ? null : "red" }}
-																onChange={(e) => { checkName(e.target.value); setNewName(e.target.value); }}>
+															<td><input type='text' value={newName} style={{ borderColor: validName === 1 ? null : "red" }}
+																onChange={(e) => { checkName(newName); setNewName(e.target.value);}}>
 															</input>
 															</td>
-															<td><input type='text' value={newEmail} style={{ borderColor: validNickName === 1 ? null : "red" }}
+															<td><input type='text' value={newEmail} style={{ borderColor: validEmail === 1 ? null : "red" }}
 																onChange={(e) => { checkEmail(e.target.value); setNewEmail(e.target.value); }}>
 															</input>
 															</td>

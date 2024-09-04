@@ -17,8 +17,9 @@ function App() {
 	const [newName, setNewName] = useState('')
 	const [newEmail, setNewEmail] = useState('')
 	const [newNickName, setNewNickName] = useState('')
-	const [newGender, setNewGender] = useState('')
+	const [newGender, setNewGender] = useState('select')
 
+	
 	//state를 통한 add버튼 활성화
 	const [validName, setValidName] = useState(0)
 	const [validEmail, setValidEmail] = useState(0)
@@ -70,7 +71,9 @@ function App() {
  }
 
 const addBtn = () => {
-	console.log('updated')
+	console.log('clean')
+	setNewName(''); setNewEmail(''); setNewNickName(''); setNewGender('select')
+	setValidName(0); setValidEmail(0); setValidNickName(0); setValidGender(0);
 }
 
 	return (
@@ -80,28 +83,28 @@ const addBtn = () => {
 				<div className='addContent'>
 						<div className='inputContent'>
 							<div>username</div>
-							<input className='input' name="username" type='text'
+							<input className='input' name="username" type='text' value={newName}
 								onChange={(e) => { checkName(e.target.value); setNewName(e.target.value);}}
 								style={{borderColor : validName === 1 ? null : "red"}}
 							></input>
 						</div>
 						<div className='inputContent'>
 							<div>email</div>
-							<input className='input' name='email' type='text'
+							<input className='input' name='email' type='text' value={newEmail}
 							onChange={(e) => { checkEmail(e.target.value); setNewEmail(e.target.value)}}
 							style={{borderColor : validEmail === 1 ? null : "red"}}
 							></input>
 						</div>
 						<div className='inputContent'>
 							<div>nickname</div>
-							<input className='input' name='nickname' type='text'
+							<input className='input' name='nickname' type='text' value={newNickName}
 							onChange={(e) => { checkNickName(e.target.value); setNewNickName(e.target.value)}}
 							style={{borderColor : validNickName === 1 ? null : "red"}}
 							></input>
 						</div>
 						<div className='inputContent'>
 							<div>gender</div>
-							<select className='input' name='gender' defaultValue='select' onChange={onChangeSelect}>
+							<select className='input' name='gender' defaultValue='select' onChange={onChangeSelect} value={newGender}> 
 								<option value='select' disabled>select</option>
 								<option value='male'>male</option>
 								<option value='female'>female</option>
@@ -114,7 +117,7 @@ const addBtn = () => {
 						? <button onClick={() => {dispatch(addUser(
 							{username : newName, email : newEmail, nickname : newNickName, gender : newGender, checked : false}
 						))
-						addBtn()
+						addBtn(); 
 					}}>add</button>
 						: <button onClick={() => {dispatch(addUser())}} disabled={true}>add</button> 
 					}
