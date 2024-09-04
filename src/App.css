@@ -36,3 +36,55 @@
     transform: rotate(360deg);
   }
 }
+
+.Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1;
+}
+
+.addContainer {
+  display: flex;
+	flex-direction: column;
+}
+
+.addContent {
+	display: flex;
+}
+
+.inputContent{
+	display: flex;
+	flex-direction: column;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
+.title{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.input{
+	margin-top: 5px;
+	margin-bottom: 15px;
+	outline : none;
+}
+
+.userContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.thContent {
+	display: flex;
+	flex-direction: row;
+}
+
+.thTitle {
+	margin-right: 5px;
+}
