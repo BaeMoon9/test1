@@ -1,4 +1,4 @@
-import './App.css';
+import '../App.css';
 import React from "react";
 import { useState, useEffect } from 'react';
 import Pagination from 'react-js-pagination';
@@ -161,7 +161,7 @@ function Paginate() {
 				<div className='title_top'>
 					<div className='title'>Users</div>
 					<div>{userArray.users.length} users</div>
-					<input className='input' placeholder='Search by username'
+					<input className='inputSearch' placeholder='Search by username'
 						onChange={(e) => { onChangeSearch(e.target.value) }}></input>
 				</div>
 				<Table striped bordered hover variant="light">
@@ -196,7 +196,7 @@ function Paginate() {
 					</thead>
 					<tbody>
 						{
-							slicedData
+							slicedData  //정렬기능이랑, 찾기기능 만들고 페이지네이션을 해야했나?
 								.map((a, i) => {
 									//console.log(editUser)
 									return (
@@ -263,7 +263,7 @@ function Paginate() {
 						}
 					</tbody>
 				</Table>
-				<div>
+				<div style={{display : 'flex', justifyContent : 'center', marginTop : '20px'}}>
 					<Pagination
 						itemClass="page-item"
 						linkClass="page-link"

@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser, deleteUser } from './store';
+import { addUser, deleteUser } from './pages/store.js';
 import Pagination from 'react-js-pagination';
-import Paginate from './pagenate.js'
+import Paginate from './pages/pagenate.js'
 
 
 function App() {
@@ -88,7 +88,7 @@ function App() {
 
 	return (
 		<div className='Container'>
-			<div className='addContainer'>
+			<div>
 				<div className='title'>Add user</div>
 				<div className='addContent'>
 					<div className='inputContent'>

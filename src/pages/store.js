@@ -11,16 +11,16 @@ const user = createSlice({
 	name : 'user',
 	initialState: userData,
 	reducers: {
-		addUser(state, action) { //등록 함수
+		addUser(state, action) { //사용자 등록
 			state.push(action.payload)
-			console.log(state)
+			//console.log(state)
 		},
-		deleteBtn(state, action) { // 삭제 함수
-			console.log('deleteBtn parameter', action.payload)
+		deleteBtn(state, action) { // 사용자 삭제
+			//console.log('deleteBtn parameter', action.payload)
 			 state.splice(action.payload, 1)
 		},
-		checkBtn(state, action) { //체크 확인 여부 :수정,삭제버튼
-			console.log('checkBtn parameter', action.payload)
+		checkBtn(state, action) { //체크 확인 여부 : 수정,삭제버튼 활성화
+			//console.log('checkBtn parameter', action.payload)
 			//console.log(state[action.payload.value].checked)
 			if(action.payload.checked === true){
 				state[action.payload.checkedID].checked = true // 체크값 true로 변경
@@ -29,10 +29,7 @@ const user = createSlice({
 			}
  		},
 		editBtn(state, action) {
-			console.log('before', userData[action.payload.checkedID])
-			//console.log(action.payload.arr)
-			state.splice(action.payload.checkedID, 1, action.payload.arr)
-			console.log('after', userData[action.payload.checkedID])
+			state.splice(action.payload.checkedID, 1, action.payload.arr) //선택한 자리에 있던 값을 action.payload.arr값으로 바꾸기
 		}
 	}
 })
@@ -46,6 +43,5 @@ export default configureStore({
 
   reducer: {
 		users : user.reducer,
-		
 	}
 }) 
