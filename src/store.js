@@ -30,7 +30,7 @@ const user = createSlice({
  		},
 		editBtn(state, action) {
 			console.log('before', userData[action.payload.checkedID])
-			console.log(action.payload.arr)
+			//console.log(action.payload.arr)
 			state.splice(action.payload.checkedID, 1, action.payload.arr)
 			console.log('after', userData[action.payload.checkedID])
 		}

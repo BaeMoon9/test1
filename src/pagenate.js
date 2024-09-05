@@ -35,7 +35,7 @@ function Paginate() {
 		console.log('checked', value)
 		console.log('id값', Number(value) + Number(slicedID)) //5개씩 slice된 sliceData 배열때문에 pagination을 해서 2페이지로가면 i값이 다시 0부터 시작한다
 		let checkedID = Number(value) + Number(slicedID) //그래서 숫자를 더해서 store.js에 있는 배열 순서랑 맞춰서 삭제한다.
-		
+
 		// if(checked === true) { //수정버튼 누를시 그 배열 값 그대로 가져오기
 		// 	//error 문제는 여러개 선택하면 모두 같은 값이 되어버린다
 		//	//user 추가할때는 input칸을 하나밖에 안써서 이렇게해도되지만 수정은 input이 여러개가 가능해서 안된다.
@@ -47,13 +47,13 @@ function Paginate() {
 
 		dispatch(checkBtn({ checkedID, checked }))
 
-		if(checked === false) { //체크 해제시 input값 비우기
+		if (checked === false) { //체크 해제시 input값 비우기
 			setNewName('')
 			setNewEmail('')
 			setNewNickName('')
 			setNewGender('')
 		}
-		
+
 	}
 
 	const [newName, setNewName] = useState('')
@@ -87,27 +87,29 @@ function Paginate() {
 			setValidName(0)
 		}
 	}
-	const checkEmail = (email) => {
-		let result = regExEmail.test(email)
-		//console.log('inputemail', result)
+	const checkEmail = (valEmail, i) => {
 
-		//email 중복 확인 여부
-		let emailSame = userArray.users.map((a, i) => {
-			if(userArray.users[i].email === result) {
-				return false
-			}else {
-				return true
-			}
+		let result = regExEmail.test(valEmail)
+		let checkedID = Number(i) + Number(slicedID)
+		//console.log(valEmail, checkedID)
+		let emailData = userArray.users.map((a, i) => { //배열의 이메일 값만 뽑아서 다시 배열 만들기
+			return userArray.users[i].email
 		})
+		
+		emailData.splice(checkedID, 1) //이메일 비교전 수정하려던 이메일 제외시키기
+		//console.log('원본', emailData)
+		
+		let duplication = emailData.includes(valEmail) //이메일 비교해서 중복이면 true 반환하기
+		//console.log('중복제거후', duplication)
 
 		if (result === true) {
-			if(emailSame === true) {
-				setValidEmail(1)
-			}else {
-				setValidEmail(0)
+			if (duplication === true) {
+				return setValidEmail(0) 
+			} else if (duplication === false) {
+				return setValidEmail(1) //중복 false일때 이메일 등록 허용시키기
 			}
 		} else {
-			setValidEmail(0)
+			return setValidEmail(0)
 		}
 	}
 
@@ -138,21 +140,21 @@ function Paginate() {
 	const onChangeSearch = (e) => {
 		console.log('찾기', e)
 		setSearchUser(e)
-		
+
 		let result = userArray.users.map((a, i) => {
-			if(userArray.users[i].username.includes(searchUser)) {
+			if (userArray.users[i].username.includes(searchUser)) {
 				console.log(userArray.users[i].username)
 				return userArray.users[i]
-			}else {
+			} else {
 				console.log('x')
 			}
 		})
 		setSearchData(result)
 		console.log(searchData)
-		
+
 	}
 
-// ↓
+	// ↓
 	return (
 		<>
 			<div className='userContainer'>
@@ -209,11 +211,11 @@ function Paginate() {
 														? <>
 															{/* {console.log('a.checked', a)} */}
 															<td><input type='text' value={newName} style={{ borderColor: validName === 1 ? null : "red" }}
-																onChange={(e) => { checkName(newName); setNewName(e.target.value);}}>
+																onChange={(e) => { checkName(newName); setNewName(e.target.value); }}>
 															</input>
 															</td>
 															<td><input type='text' value={newEmail} style={{ borderColor: validEmail === 1 ? null : "red" }}
-																onChange={(e) => { checkEmail(e.target.value); setNewEmail(e.target.value); }}>
+																onChange={(e) => { checkEmail(e.target.value, i); setNewEmail(e.target.value); }}>
 															</input>
 															</td>
 															<td><input type='text' value={newNickName} style={{ borderColor: validNickName === 1 ? null : "red" }}
@@ -221,7 +223,7 @@ function Paginate() {
 															</input>
 															</td>
 															<td>
-																<select className='input' name='gender' defaultValue='select' onChange={onChangeSelect}>
+																<select className='input' name='gender' defaultValue={a.gender} onChange={onChangeSelect}>
 																	<option value='select' disabled>select</option>
 																	<option value='male'>male</option>
 																	<option value='female'>female</option>
