@@ -49,15 +49,20 @@ function App() {
 		})
 		//console.log('emaildata', emailData)
 		let duplication = emailData.includes(valEmail) //이메일 비교해서 중복이면 true 반환하기
-		//console.log('duple', duplication)
+		//console.log('datas', emailData)
+		console.log('duple', duplication)
 
 		if (result === true) {
-			if (duplication === false) {
-				setValidEmail(1) //중복 false일때 이메일 등록 허용시키기
+			if (duplication === true) { //이메일 중복 true면 add버튼 비활성화 조건
+				return setValidEmail(0) 
+			}else if (duplication === false) {
+				return setValidEmail(1) //중복 false일때 이메일 등록 허용시키기 - add버튼 활성화 조건
 			}
 		} else {
 			setValidEmail(0)
 		}
+		console.log('정규식 통과', result)
+		console.log('validemail', validEmail)
 	}
 
 	const checkNickName = (name) => {

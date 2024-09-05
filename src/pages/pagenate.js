@@ -209,9 +209,9 @@ function Paginate() {
 
 													a.checked === true
 														? <>
-															{/* {console.log('a.checked', a)} */}
+															{/* {state변경이 잘못된것같다 input으로 바뀌면서 defaultValue값이 나오는데 } */}
 															<td><input type='text' defaultValue={a.username} style={{ borderColor: validName === 1 ? null : "red" }}
-																onChange={(e) => { checkName(newName); setNewName(e.target.value); }}>
+																onChange={(e) => { checkName(e.target.value); setNewName(e.target.value); }}>
 															</input>
 															</td>
 															<td><input type='text' defaultValue={a.email} style={{ borderColor: validEmail === 1 ? null : "red" }}
