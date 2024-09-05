@@ -158,7 +158,7 @@ function Paginate() {
 	return (
 		<>
 			<div className='userContainer'>
-				<div>
+				<div className='title_top'>
 					<div className='title'>Users</div>
 					<div>{userArray.users.length} users</div>
 					<input className='input' placeholder='Search by username'
@@ -210,15 +210,15 @@ function Paginate() {
 													a.checked === true
 														? <>
 															{/* {console.log('a.checked', a)} */}
-															<td><input type='text' value={newName} style={{ borderColor: validName === 1 ? null : "red" }}
+															<td><input type='text' defaultValue={a.username} style={{ borderColor: validName === 1 ? null : "red" }}
 																onChange={(e) => { checkName(newName); setNewName(e.target.value); }}>
 															</input>
 															</td>
-															<td><input type='text' value={newEmail} style={{ borderColor: validEmail === 1 ? null : "red" }}
+															<td><input type='text' defaultValue={a.email} style={{ borderColor: validEmail === 1 ? null : "red" }}
 																onChange={(e) => { checkEmail(e.target.value, i); setNewEmail(e.target.value); }}>
 															</input>
 															</td>
-															<td><input type='text' value={newNickName} style={{ borderColor: validNickName === 1 ? null : "red" }}
+															<td><input type='text' defaultValue={a.nickname} style={{ borderColor: validNickName === 1 ? null : "red" }}
 																onChange={(e) => { checkNickName(e.target.value); setNewNickName(e.target.value) }}>
 															</input>
 															</td>
@@ -232,18 +232,19 @@ function Paginate() {
 															<td>
 																{
 																	validName === 1 && validEmail === 1 && validNickName === 1 && validGender === 1
-																		? <button value={i} onClick={() => {
+																		? <button style={{backgroundColor : 'blue', color : 'white', border : 0, width: '60px'}} value={i} onClick={() => {
 																			handleEdit(i, {
 																				username: newName, email: newEmail, nickname: newNickName, gender: newGender, checked: false
 																			})
-																		}}>수정</button>
+																		}}>save</button>
 																		: <button disabled={true} value={i} onClick={() => {
 																			handleEdit(i, {
 																				username: newName, email: newEmail, nickname: newNickName, gender: newGender, checked: false
 																			})
-																		}}>수정</button>
+																		}}>save</button>
 																}
-																<button value={i} onClick={() => { dispatch(deleteBtn(Number(i) + Number(slicedID))) }}>삭제</button>
+																<button style={{backgroundColor : 'red', color : 'white', border : 0, width : '60px' }}
+																value={i} onClick={() => { dispatch(deleteBtn(Number(i) + Number(slicedID))) }}>delete</button>
 															</td>
 														</>
 														: <>
@@ -270,8 +271,8 @@ function Paginate() {
 						itemsCountPerPage={limit} //limit
 						totalItemsCount={userArray.users.length}
 						pageRangeDisplayed={5}
-						prevPageText={"< prev"}
-						nextPageText={"next >"}
+						prevPageText={"< "}
+						nextPageText={" >"}
 						onChange={handleNextPage}
 					/>
 				</div>

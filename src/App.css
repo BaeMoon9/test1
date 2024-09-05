@@ -61,6 +61,12 @@
 	margin-left: 5px;
 }
 
+
+.title_top {
+	display: flex;
+	flex-direction: column;
+}
+
 .title{
 	margin-top: 5px;
 	margin-bottom: 5px;
